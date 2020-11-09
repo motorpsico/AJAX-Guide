@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax 2</title>
+</head>
+<body>
+    <button id="button1">Número 1</button>
+    <button id="button2">Número 2</button>
+    <h1 id="output">El valor aparecerá aquí, saludos</h1>
+</body>
+<script>
+
+    let path = "dataresponder.php";
+    function getData(e) {
+        let value = e.target.id == "button1"? 1 : 2;
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", path + "?data=" + value);
+        xhr.onreadystatechange = function() {
+            if(this.status == 200 && this.readyState == 4) {
+                document.getElementById("output").innerHTML = this.responseText;
+            }
+        }
+
+        xhr.send(null);
+    }
+
+    let button1 = document.getElementById("button1");
+    let button2 = document.getElementById("button2");
+
+    button1.addEventListener("click", getData);
+    button2.addEventListener("click", getData);
+
+</script>
+</html>

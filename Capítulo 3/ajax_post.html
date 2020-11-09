@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax POST</title>
+</head>
+<body>
+
+    <h1 id="output">La información del server se mostrará aquí</h1>
+    <button id="button1">Botón 1</button>
+    <button id="button2">Botón 2</button>
+    <button id="button3">Botón 3</button>
+    <button id="button4">Botón 4</button>
+    <button id="button5">Botón 5</button>
+    <button id="button6">Botón 6</button>
+    <button id="button7">Botón 7</button>
+    <button id="button8">Botón 8</button>
+    <button id="button9">Botón 9</button>
+    <button id="button10">Botón 10</button>
+
+    <script>
+        function getData(e) {
+            let path = "dataresponder_post.php";
+            let value = e.target.id;
+            let xhr =  new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if(this.status == 200 && this.readyState == 4)
+                    document.getElementById("output").innerHTML = this.responseText;
+            }
+
+            xhr.open("POST", path);
+            xhr.setRequestHeader('Content-Type',
+            'application/x-www-form-urlencoded');
+            xhr.send("data=" + value);
+
+        }
+
+
+        let botones = document.getElementsByTagName("button");
+        for(let boton of botones)
+            boton.addEventListener("click", getData);
+
+    </script>
+</body>
+</html>

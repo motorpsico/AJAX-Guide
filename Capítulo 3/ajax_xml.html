@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Usando AJAX con XML</h1>
+    <button id="colors">Colors</button>
+    <button id="brands">Brands</button>
+    <button id="names">Names</button>
+    <ul id="output">
+
+    </ul>
+
+    <script>
+        function getData(e) {
+            let files = {
+                "colors":"colors.xml",
+                "brands":"brands.xml",
+                "names": "names.xml"
+            }
+            let file = files[e.target.id];
+            
+            let xhr =  new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if(this.status == 200 && this.readyState == 4) {
+                    let xmlDocument = this.responseXML;
+                    let docRoot = xmlDocument.documentElement;
+                    let items = docRoot.children;
+                    let html = "";
+                    for(let item of items) {
+                        html += "<li>" + item.innerHTML + "</li>";
+                    }
+                    document.getElementById("output").innerHTML = html;
+                }
+                    
+            }
+
+            xhr.open("POST", file);
+            
+            xhr.send();
+
+        }
+
+
+        let botones = document.getElementsByTagName("button");
+        for(let boton of botones)
+            boton.addEventListener("click", getData);
+
+    </script>
+    
+</body>
+</html>

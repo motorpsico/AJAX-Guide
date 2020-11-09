@@ -1,0 +1,96 @@
+Creating Ajax applicacions
+--------------------------
+
+Enviando datos al servidor usando el método GET. 
+------------------------------------------------
+
+La comunicación con el servidor es el corazó de lo que hace Ajax, y para hacer que el servidor responda a lo que le has enviado, necesitas poder usar alguna forma de programación en el servidor.
+En esta sección, crearemos un script PHP llamado dataresponder.php que puede enviarnos datos.
+
+Si envías a dataresponder.php un valor de 1, te devolverá el texto
+"el servidor tiene un valor de 1" y si envías un valor de 2, el script te devolverá el texto "El servidor tiene el valor de 2".
+
+Enviando información mediato la codificación de la URL
+-------------------------------------------------------
+
+El método GET permite enviar datos de texto al servidor añadiendo ese texto al final de la URL que utiliza para acceder al servidor.
+Por ejemplo si quieres enviar el nombre Steve al servidor, pasas "Steve" como el valor de un argumento, al igual que con una función de javascript. Al argumento hay que ponerle un identifador
+por ejemplo:
+
+https://www.ejemplo.com/dataresponder.php?name=Steve
+
+Detrás de la parte de navegación se agrega un signo de pregunta cerrada y luego el identificador con su nombre. Si se quiere enviar más datos hay que separarlo con el símbolo ampersand.
+
+https://www.ejemplo2.com/miarchillo.php?name=Guillermo&lastname=Larroca
+
+Si la información que se quiere enviar contiene espacios hay que utilizar el signo más dado que no se permite enviar espacios mediante la la codificación de URL.
+
+Sin embargo, ten en cuenta que el texto que envías es parte de la URL, por lo que la privacidad no existe con el método GET.
+
+El método POST, que codifica los datos que envías en los encabezados HTTP en la solicitud enviada al servidor, hace un mejor trabajo de mantener las cosas en privado.
+
+Esto significa que podemos enviar el valor 1 a al archivo dataresponder.php de la siguiente manera:
+
+http://www.server.com/dataresponder.php?data=1
+
+Escribiendo el archivo PHP
+--------------------------
+Para acceder a los datos enviados por la URL tenermos que usar el método superglobal $_GET[nombreVariableURL]
+El código queda como sigue:
+
+if($_GET["data"] == "1")
+    echo "The server got a value of 1";
+else
+    echo "The server got a value of 2";
+
+
+Enviando datos al servidor usando el método POST
+-------------------------------------------------
+
+El método GET es sólo una forma de enviar información al servidor.
+Existen otras formas entre ellas el método POST, el cual ofrece mayour seguridad porque la información no se envía mediante la URL.
+
+Escribiendo el PHP
+-------------------
+
+La información que se envía mediante el método post en PHP se almacena en el arreglo superglobal $_POST["nameVariable"].
+Por ejemplo:
+
+if($_POST["data"] == 1) 
+   echo "Enviaste el valor de 1";
+else
+    echo "Enviaste el valor de 2";
+
+Interactuando con dataresponder.php
+-----------------------------------
+
+1 En el archivo ajax.html habría que modificar el método open();
+
+xhr.open("POST", datasource)
+
+2 A continuación, para habilitar el envío de datos vía POST, también hay que establecer un encabezado de solicitud HTTP, "Content type", "application/x-www-form-urlencoded". Incluso si no sabes lo que eso significa, asegúrate de incluir este código:
+
+XMLHttpRequestObject.open("POST", dataSource);
+XMLHttpRequestObject.setRequestHeader('Content-Type',
+'application/x-www-form-urlencoded');
+
+3 Ahora estamos listos para enviar los datos al servidor mediante el me´todo POST. Para hacer esto utilizamos el método send(). Este método ya se utilizó pero le pasabamos el valor de null por que la información se enviaba mediante la URL, ahora sin embargo hay que pasarle la información que queremos enviar mediate este método.
+
+xhr.send("data=" + data);
+
+Usando AJAX junto con XML
+------------------------
+
+Digamos que tienes un archivo xml importante y quieres descargarlo. Como todo documento XML colors.xml comienza con la declaración de documento de XML.
+
+Todos los docs. XML necesitan un elemento de documento (document element)
+lo que significa un único elemento que contiene a todos los otros elementos en el documento. En este caso llamemoslo <colors>. El documento quedaría como sigue:
+
+<?xml version="1.0" ?>
+<colors>
+    <color>Red</color>
+    <color>Blue</color>
+    <color>Yellow</color>
+</colors>
+
+Ahora hay que ver la parte de ajax.

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi primer ajax</title>
+</head>
+<body>
+    <h1>An AJAX example</h1>
+    <button id="button">Fetch the message</button>
+    <div id="info">
+        La información del server estará aquí.
+    </div>
+</body>
+<script>
+    function getData(e) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", path);
+        xhr.onreadystatechange = function() {
+            if(this.status == 200 && this.readyState == 4) {
+                display.innerHTML = xhr.responseText;
+            }
+        }
+        
+        xhr.send(null);
+
+    }
+
+    let path = "data2.php";
+    let display = document.getElementById("info");
+    let button = document.getElementById("button");
+    button.addEventListener("click", getData);
+</script>
+</html>
