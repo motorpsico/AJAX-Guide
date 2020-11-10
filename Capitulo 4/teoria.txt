@@ -1,0 +1,29 @@
+Introducción
+------------
+
+Uno de los tópicos principales del capítulo es trabajar con múltiples múltiples peticiones XMLHttpRequest en la misma página, es decir, si tienes varios botones que usan Ajax para conectarse al servidor, ¿Qué pasa si una petición no se termina antes de que el usuario haga click en otro botón? Cuando Ajax regresa, ¿Qué petición está devolviendo los datos? Aquí veremos cómo trabajar con múltiples peticiones en la misma página.
+
+También vermos que además de descargar texto plano y XML, también puedes descargar otros datos basados en caracteres, como javascript, que resulta ser algo común de descargar usando Ajax. Por ejemplo, conectarse a algunas aplicaciones de Google por sí mosmo en código, como Google Suggest, implica descargar javascript.
+
+Manejando múltiples XMLHttpRequest en la misma página
+-----------------------------------------------------
+
+Tal vez recuerde el ejemplo del capítulo 3 en el que nos comunicamos con un script PHP en el servidor, dataresponder.php. Al pulsar el botón 1, se envió un valor de 1 al servidor, que devolvió ese valor.
+Al hacer clic en el botón 2, se envió un valor de 2 al servidor, que devolvió ese valor. Hasta ahora todo bien.
+
+Pero ahora digamos que el usuario se impacienta y hace click en los botones al azar. El problema es que la aplicación utiliza un solo objeto XMLHttpRequest, pero ahora a ese objeto se le pide que envíe múltiples peticiones al servidor. Y dependiendo de lo ráido o lento que sea el servidor, las respuestas podrían mezclarse: el usuario podría incluso hacer click en el botón 1, y luego en el botón 2 y ver la respuesta de hacer click en el botón 1 si el servidor devolviera las respuestas fuera de orden.
+
+Esa posibilidad de desorden se produce porque la aplicación utiliza sólo una Objeto XMLHttpRequest, aunque el usuario pueda hacer múltiples solicitudes.
+
+NOTA: comprobé agregando un delay(ciclo for muy largo) què devuelve la primer petición y luego la segunda y la tercera siempre sobreescribiendo la peticiones anteriores.
+
+Obteniendo más información: HTML Header Request and Ajax
+--------------------------------------------------------
+
+No sólo puedes descargar el contenido de los archivos con Ajax, sino que puedes obtener información sobre estos archivos. Para ello, puedes utilizar el método getAllResponseHeaders del objeto XMLHttpRequest, que te proporciona el texto correspondiente a todos los encabezados HTML recibidos sobre el archivo desde el servidor.
+
+Los encabezados HTTP reciben nombres como servidor, fecha, etc. y se les asigna un texto sobre el recurso al que estás accedidiendo. Puedes usar este tipo de información incluso antes de intentar descargar un recurso de la web, para saber el tamaño, tipo y fecha de la última modificación de ese recurso, y así sucesivamente, lo que le permite prepararse mejor para la descarga. Y si el usuario te pide descargar un recurso que no existe, puedes hacerles saber sin tener tu aplicación muestre un mensaje de error.
+
+Probemos esto y veamos qué tipo de encabezados HTTP podemos descargar para el archivo google.html. Aquí está head.html, que sólo usa el objeto 
+
+

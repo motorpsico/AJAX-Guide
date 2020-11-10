@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obteniendo encabezados</title>
+</head>
+<body>
+    <h1>Getting header Data</h1>
+    <form id="formulario" action="">
+        <input type="text" placeholder="Write the URL to search"/>
+        <input type="submit" value="Search" />
+    </form>
+    <div id="info">
+        <p>The info will be displayed here.</p>
+    </div>
+    <script>
+        function getInfoFromServers(e) {
+            let path = search.value;
+            e.preventDefault();
+            let xhr = new XMLHttpRequest();
+            xhr.open("HEAD", path);
+            xhr.onreadystatechange = function() {
+                if(this.status = 200 && this.readyState == 4) {
+                    document.getElementById("info").innerHTML = this.getResponseHeader("Content-Type");
+                }
+            }
+            xhr.send(null);
+        }
+
+        let search = document.querySelector("input[type='text']");
+        let submit = document.querySelector("input[value='Search']");
+        
+        document.forms[0].addEventListener("submit", getInfoFromServers);
+
+    </script>
+</body>
+</html>
