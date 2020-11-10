@@ -1,1 +1,1 @@
-# Pr†cticas del libro "Ajax a beginner's Guide" 
+# Pr√°cticas del libro "Ajax a beginner's Guide" 
