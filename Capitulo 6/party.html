@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Getting the document Element</h1>
+    <button id="button">Get document</button>
+    <div id="output"></div>
+    <script>
+
+        function getFile(e) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", path);
+            xhr.onreadystatechange = function() {
+                if(this.status == 200 && this.readyState == 4) {
+                    let xmlDocument = this.responseXML;
+                    let documentElement = xmlDocument.documentElement;
+                    document.getElementById("output").innerHTML = "&lt;" + documentElement.tagName + "&gt;"
+                    + "Números de hijos es: " + documentElement.children.length;
+                }
+            }
+            xhr.send(null);
+        }
+
+        let path = "party.xml";
+        let button = document.getElementById("button");
+        button.addEventListener("click", getFile);
+    </script>
+</body>
+</html>

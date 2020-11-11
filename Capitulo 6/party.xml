@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<parties>
+    <party type="winter">
+        <party_number>63</party_number>
+        <date>2/2/2009</date>
+        <people>
+            <person attendance="present">
+                <first_name>Ralph</first_name>
+                <last_name>Kramden</last_name>
+            </person>
+            <person attendance="absent">
+                <first_name>Alice</first_name>
+                <last_name>Kramden</last_name>
+            </person>
+            <person attendance="present">
+                <first_name>Ed</first_name>
+                <last_name>Norton</last_name>
+            </person>
+        </people>
+    </party>   
+    <party type="summer">
+
+    </party> 
+</parties>

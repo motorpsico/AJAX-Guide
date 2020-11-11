@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Getting the document Element</h1>
+    <button id="button">Get document</button>
+    <div id="output"></div>
+    <script>
+
+        function getFile(e) {
+
+            function thirdGuest(documentXML) {
+                
+                let partiesNode = documentXML.documentElement;
+                let partyNode = partiesNode.firstChild.nextSibling;
+                alert(partyNode.tagName);
+                
+                // let thirdPersonNode = peopleNode.lastChild;
+                // let nameNode = thirdPersonNode.firstChild;
+                // let lastNameNode = thirdPersonNode.lastChild;
+                // let fullName = nameNode.nodeValue + " " + lastNameNode.nodeValue;
+                // document.getElementById("output").innerHTML += fullName;
+                
+            }
+
+
+            let xhr = new XMLHttpRequest();
+            xhr.overrideMimeType("text/xml");
+            xhr.open("GET", path);
+            xhr.onreadystatechange = function() {
+                if(this.status == 200 && this.readyState == 4) {
+                    let xmlDocument = this.responseXML;
+                    
+                    alert(xmlDocument.getElementsByTagName("person").length);
+                    let documentElement = xmlDocument.documentElement;
+                    document.getElementById("output").innerHTML = "&lt;" + documentElement.tagName + "&gt;"
+                    + "Números de hijos es: " + documentElement.children.length;
+                    thirdGuest(xmlDocument);
+                }
+            }
+            xhr.send(null);
+        }
+
+        let path = "party.xml";
+        let button = document.getElementById("button");
+        button.addEventListener("click", getFile);
+    </script>
+</body>
+</html>

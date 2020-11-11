@@ -208,3 +208,99 @@ Hay dos métodos para comprobar la validez de los documentos XML: XML Document T
 
 Si está interesado en asegurar la validez de sus documentos XML, consulte un libro de XML que cubre DTDs y Esquema XML.
 Bien, eso te da una buena base de XML. Comencemos a manejar XML en JavaScript, como es probable que hagas en las aplicaciones de Ajax.
+
+## Trabajando con XML en Javacript
+
+Javascript ve al XML en términos de nodos. 
+
+    <?xml version="1.0" ?>
+    <document>
+        <greeting>
+            Welcome to XML
+        </greeting>
+        <text>
+            Hello there!
+        </text>
+    </document>
+
+En este caso el nodo `<document>` tiene dos nodos hijos, `<greeting>` y `<text>`. Estos nodos son hermanos entre ellos. Ambos también tienen hijos en este caso nodos de tipo texto. 
+
+Para javascript un doc. XML está construido por nodos y tiene propiedades incorporadas en el lenguaje para trabajar con ellos.
+
+
+## Obtener el `Document Element`
+
+Obtener el document element es usualmente el primer paso para trabajar con documentos XML. Para ello hay que descargar el documento XML y utilizar sobre el mismo la propiedad documentElement. 
+
+## Accediendo a cualquier elemento XML
+
+Accediendo al últmo invitado en el archivo de la fiesta:
+
+En nuestro caso tenemos que acceder al arbol del documento recorriendo los distintos nodos:
+
+    function displayGuest (xmldoc)
+    {
+    var partiesNode, partyNode, peopleNode;
+    var firstNameNode, lastNameNode, displayText;
+
+    partiesNode = xmldoc.documentElement;
+    partyNode = partiesNode.firstChild;
+    peopleNode = partyNode.lastChild;
+    personNode = peopleNode.lastChild;
+    firstNameNode = personNode.firstChild;
+    lastNameNode = firstNameNode.nextSibling;
+    displayText = "The third guest was " +
+    firstNameNode.firstChild.nodeValue + ' '
+    + lastNameNode.firstChild.nodeValue;
+    var target = document.getElementById("targetDiv");
+    target.innerHTML=displayText;
+    }
+
+Probablemente el código anterior no funcione en todos los navegadores dado que javascript toma el identado del archivo xml el que sirve para organizar el código como si fueran nodos de texto. Los que se explica mejor en la sección sig.
+
+## Manejando el espacio en blanco
+
+Cuando se trata de espacios en blanco, Firefox por defecto actúa de manera diferente a Internet Explorer. En Firefox, el espacio en blanco que usas para sangrar los elementos en tu XML cuenta como nodos de texto.
+Así que cuando navegamos, tenemos que tener en cuenta todos los nodos de espacios en blanco en Firefox, por defecto.
+
+Digamos que queremos navegar al elemento `<party>` Podrías pensar que utilizando el sig. código funcionaría `partiesNode.firstChild`. Esta expresión tomaría al primer hijo del `parties` y en Firefox como en Chrome
+ese es el nodo de texto usado para sangrar el elemento `<party>`.
+
+    <?xml version="1.0"?>
+    <parties>
+    xxxx<party type="winter">
+           <party_title>Snow Day</party_title>
+           <party_number>63</party_number>
+
+Así que para llegar al elemento `<party>`, tienes que llegar al siguiente hermano del nodo de texto.
+
+Así que puedes usar las propiedades "nextSibling" y "previousSibling" para navegar por los nodos de texto de los espacios en blanco, pero es un fastidio. Esto es en lo que se convierte la función displayGuest cuando se tiene en cuenta el manejo de espacios en blanco por defecto en Firefox:
+
+    function displayGuest(xmldoc)
+    {
+    var partiesNode, partyNode, peopleNode;
+    var personNode, firstNameNode, lastNameNode, displayText;
+    partiesNode = xmldoc.documentElement;
+    partyNode = partiesNode.firstChild.nextSibling;
+    peopleNode = partyNode.lastChild.previousSibling;
+    personNode = peopleNode.firstChild.nextSibling
+    .nextSibling.nextSibling.nextSibling.nextSibling;
+    firstNameNode = personNode.firstChild.nextSibling;
+    lastNameNode = firstNameNode.nextSibling.nextSibling;
+    displayText = "The third guest is: " +
+    firstNameNode.firstChild.nodeValue + ' '
+    + lastNameNode.firstChild.nodeValue;
+    var target = document.getElementById("targetDiv");
+    target.innerHTML=displayText;
+    }
+
+Manejando el espacio en múltiples navegadores
+----------------------------------------------
+
+Para solucionar este problema se puede crear una función que remueva todo el espacio en blanco. O esto mismo utilizando una herramienta de internet que minifique los archivos.
+
+## Accediendo a los datos de XML directamente
+
+En realidad puedes buscar en los documentos XML sólo los datos que estás buscando usando el
+El método getElementsByTagName del objeto de documento XML, que devuelve una matriz de XML
+nodos de elementos
