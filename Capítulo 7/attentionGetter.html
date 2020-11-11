@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+
+        .new-text {
+            animation-name: newText;
+            animation-duration: 5s;
+            animation-timing-function: linear;
+        }
+
+        @keyframes newText {
+            from {color: crimson;}
+            to {color: #222;}
+        }
+    </style>
+</head>
+<body>
+    <h1>Getting the user's attention</h1>
+    <button id="button">Click me!</button>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores atque in saepe at quo, harum, similique laborum quam eius, doloribus commodi ex omnis sit. Nemo itaque unde minus earum accusamus!</p>
+    <p id="output">The fetched data will go here.</p>
+    <script>
+
+        function getData(e) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", path);
+            xhr.onreadystatechange = function() {
+                if(this.status == 200 && this.readyState == 4) {
+                    let text = this.responseText;
+                    let salida = document.getElementById("output");
+                    salida.style.display = "none";
+                    salida.classList.add("new-text");
+                    salida.innerHTML = text;
+                    salida.style.display = "initial";
+                }
+            }
+            xhr.setRequestHeader('Content-Type',
+            'application/x-www-form-urlencoded');
+            xhr.send();
+        }
+
+        let path = "hola.txt";
+        let button = document.getElementById("button");
+        button.addEventListener("click", getData);
+    </script>
+</body>
+</html>
